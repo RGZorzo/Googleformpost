@@ -1,32 +1,23 @@
 function postToGoogle() {
-            var childName= jQuery('input[name="nombre-alumno"]').val();
-            var dateBorn= jQuery('input[name="fecha-nacimiento"]').val();
-            var parentName= jQuery('input[name="nombre-padres"]').val();
-            var howIsRelated= jQuery('select[name="parentesco"]').val();
-            var phone= jQuery('input[name="telefono"]').val();
-            var mail= jQuery('input[name="email"]').val();
-            var postCode= jQuery('input[name="cpostal"]').val();
-            var courseGroup= jQuery('select[name="etapa"]').val();
-            var visitTime= jQuery('input[name="hora-visita"]').val();
-            var visitDay= jQuery('input[name="dia-visita"]').val();
+
+            //Getting filled input's information and storing into custom variables
+            var email= jQuery('input[name="email-field"]').val();
+            var name = jQuery('input[name="name-field"]').val();
+            var address= jQuery('input[name="address-field"]').val();
 
             jQuery.ajax({
             url: "https://docs.google.com/forms/d/e/1FAIpQLSexK4WZ3hchbbBEfseeh0lFFYBZdaRjQHSa_-3l23Dto3tZ-Q/formResponse",
             data: {
-                        "entry.679329922": childName,
-                        "entry.451258652": dateBorn,
-                        "entry.1785490238": parentName,
-                        "entry.1008716410": howIsRelated,
-                        "entry.1042332445": phone,
-                        "entry.657495341": mail,
-                        "entry.2128845925": postCode,
-                        "entry.1551565558": courseGroup,
-                        "entry.728631873": visitTime,
-                        "entry.1850040574": visitDay
+                        //Posting web form info to Google after inspecting Google form's inputs getting its names
+                        //Format is allways entry.xxxxxxxxx no mater input type
+                        "entry.xxxxxxxxx": email,
+                        "entry.xxxxxxxxx": name,
+                        "entry.xxxxxxxxx": address
             },
             type: "POST",
             dataType: "json",
             statusCode: {
+                //Here you can fire custom events depending on submitting success
                 0: function() {     
                 },
                 200: function() {
@@ -35,7 +26,9 @@ function postToGoogle() {
         });
 }
 
-jQuery('.wpcf7-form').submit(function(){
+//Attach previous function on form submit.
+//You could even prevent default behaviour and wait for google form's response before doing default submit
+jQuery('.whatever-form').submit(function(){
         postToGoogle();
         return;
 });
